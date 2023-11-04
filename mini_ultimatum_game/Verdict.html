@@ -1,0 +1,16 @@
+{{ block title }}Send Amount{{ endblock }}
+{{ block content }}
+
+    {{ include_sibling 'instructions.html' }}
+
+    <form method="post">
+      <h2>Make Your Decision:</h2>
+      <div class='form-group'>
+        <label for='{{ form.decision }}'>Choose one:</label>
+        {{ form.decision }}
+      </div>
+      {{ next_button }}
+    </form>
+
+{{ endblock }}
+

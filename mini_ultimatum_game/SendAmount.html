@@ -1,0 +1,18 @@
+{{ block title }}Send Amount{{ endblock }}
+{{ block content }}
+
+    {{ include_sibling 'instructions.html' }}
+
+    <form method="post">
+      <table>
+        <tr>
+          <th>Amount to Send</th>
+          <td>{{ form.sent_amount }}</td>
+        </tr>
+      </table>
+
+      {{ next_button }}
+    </form>
+
+{{ endblock }}
+
