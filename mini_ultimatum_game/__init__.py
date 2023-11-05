@@ -19,6 +19,7 @@ class C(BaseConstants):
     """Constants for mini_ultimatum_game."""
     NAME_IN_URL = 'mini_ultimatum_game'
     PLAYERS_PER_GROUP = 3
+    # Chose to have the game run just once
     NUM_ROUNDS = 1
     ENDOWMENT = 200
     MIN_OFFER = 0
@@ -33,6 +34,8 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     """Defines methods related to the group of players."""
     def decision_made(self):
+        """Returns True if all players have made a decision."""
+        # check if all players have made a decision
         return all([p.decision in ['Punish', 'Not Punish'] for p in self.get_players()])
 
 
@@ -92,11 +95,14 @@ class SendAmount(Page):
     form_fields = ['sent_amount']
 
     def vars_for_template(self):
+        """Returns the currency for the game."""
+        # attempt to change the currency to Ksh
         return {
             'currency': 'Ksh',
         }
 
     def is_displayed(self):
+        """Display the page to player 1 only."""
         return self.id_in_group == 1
 
 
@@ -106,9 +112,11 @@ class Verdict(Page):
     form_fields = ['decision']
 
     def is_displayed(self):
+        """Display the page to player 3 only."""
         return self.id_in_group == 3
 
     def vars_for_template(self):
+        """Returns the amount sent by player 1."""
         player1 = self.group.get_player_by_id(1)
         player2 = self.group.get_player_by_id(2)
         return {
@@ -121,9 +129,11 @@ class Verdict(Page):
 class Payout(Page):
     """Page 3: Player 1 and 2 see their payout."""
     def is_displayed(self):
+        """Display the page to player 1 and 2 only."""
         return self.id_in_group != 3
 
     def vars_for_template(self):
+        """Returns the payout for each player."""
         player1 = self.group.get_player_by_id(1)
         player2 = self.group.get_player_by_id(2)
         player3 = self.group.get_player_by_id(3)
@@ -145,17 +155,24 @@ class Payout(Page):
 class SendAmountWait(WaitPage):
     """Wait page between page 1 and 2."""
     def is_displayed(self):
+        """Display the wait page to player 2 and 3 only."""
+        # let player 1 send an amount
         return self.id_in_group != 1
 
 
 class DecisionWait(WaitPage):
     """Wait page between page 2 and 3."""
     def is_displayed(self):
+        """Display the wait page to player 1 and 2 only."""
+        # let player 3 make a decision
         return self.id_in_group != 3
 
 
 class ExitSurvey(Page):
     """ Exit survey"""
+    # Although implemented, the exit survey does not work as instructed
+    # the survey accepts any answer given even for the math question despite saveguards
+    # The survey page is displayed after the game though.
     form_model = 'player'
     form_fields = ['capital_city', 'math_question', 'population_question']
 
