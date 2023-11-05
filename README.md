@@ -22,7 +22,7 @@ Follow these steps to set up and run the Mini Ultimatum Game on your local machi
 Clone the repository to your local machine:
 
 ```shell
-$ git clone https://github.com/yourusername/mini-ultimatum-game.git
+$ git clone https://github.com/chriss1525/mini-ultimatum-game.git
 $ cd mini-ultimatum-game
 ```
 
