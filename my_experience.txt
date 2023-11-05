@@ -11,7 +11,7 @@
   - I learned the importance of the `settings.py` file, which defines the configuration for the project, including the apps that run when the otree devserver is set up.
 
 3. **Game Design**:
-   - I had to decide whether the exit survey was separate from the mini ultimatum game. I chose to have them as two apps in the same project.
+   - I had to decide whether the exit survey was separate from the mini ultimatum game. I chose to merge them and have the one app.
 
 4. **Mini Ultimatum Game**:
 
