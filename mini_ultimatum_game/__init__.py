@@ -1,4 +1,5 @@
 from otree.api import *
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 doc = """
@@ -15,34 +16,43 @@ and player 2 gets the amount sent to him by player 1.
 
 
 class C(BaseConstants):
+    """Constants for mini_ultimatum_game."""
     NAME_IN_URL = 'mini_ultimatum_game'
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
-    ENDOWMENT = 200 # Ksh
+    ENDOWMENT = 200
     MIN_OFFER = 0
     MAX_OFFER = ENDOWMENT
 
 
 class Subsession(BaseSubsession):
+    """Defines subsession for mini_ultimatum_game."""
     pass
 
 
 class Group(BaseGroup):
+    """Defines methods related to the group of players."""
     def decision_made(self):
         return all([p.decision in ['Punish', 'Not Punish'] for p in self.get_players()])
 
 
 class Player(BasePlayer):
+    """Defines player roles and actions."""
+    # define player roles and actions
+
+    # player 1 sends amount to player 2
     sent_amount = models.CurrencyField(
         min=C.MIN_OFFER, max=C.MAX_OFFER,
         doc="How much do you want to send to player 2?",
         verbose_name='Ksh'
     )
 
+    # player 2 waits to receive amount from player 1
     received_amount = models.CurrencyField(
         doc="Amount received from player 1"
     )
 
+    # player 3 decides whether player 1's offer is fair or not
     decision = models.StringField(
         choices=['Punish', 'Not Punish'],
         doc="If you choose to punish, both player1 and player 2 will not get any money."
@@ -51,13 +61,33 @@ class Player(BasePlayer):
         doc="Players' payout"
     )
 
+    # exit survey questions
+    # Define the survey questions
+    capital_city = models.StringField(
+        choices=['Kisumu', 'Nairobi', 'Mombasa'],
+        label='Q1. What is the capital city of Kenya?'
+    )
+    math_question = models.IntegerField(
+        label='Q2. What is 14 + 15?',
+        # Define a range of acceptable answers for the math question
+        min=20,
+        max=35,
+        # try to confine acceptable answer within a range
+        validators=[MinValueValidator(29), MaxValueValidator(29)]
+    )
+    population_question = models.IntegerField(
+        label='Q3. What is the population of Kenya?'
+    )
+
 
 # PAGES
 class introduction(Page):
+    """Gives instructions for the mini_ultimatum_game."""""
     pass
 
 
 class SendAmount(Page):
+    """Page 1: Player 1 sends amount to player 2."""
     form_model = 'player'
     form_fields = ['sent_amount']
 
@@ -65,11 +95,13 @@ class SendAmount(Page):
         return {
             'currency': 'Ksh',
         }
+
     def is_displayed(self):
         return self.id_in_group == 1
 
 
 class Verdict(Page):
+    """Page 2: Player 3 decides whether player 1's offer is fair or not."""""
     form_model = 'player'
     form_fields = ['decision']
 
@@ -87,6 +119,7 @@ class Verdict(Page):
 
 
 class Payout(Page):
+    """Page 3: Player 1 and 2 see their payout."""
     def is_displayed(self):
         return self.id_in_group != 3
 
@@ -110,18 +143,27 @@ class Payout(Page):
 
 
 class SendAmountWait(WaitPage):
+    """Wait page between page 1 and 2."""
     def is_displayed(self):
         return self.id_in_group != 1
-    pass
+
 
 class DecisionWait(WaitPage):
+    """Wait page between page 2 and 3."""
     def is_displayed(self):
         return self.id_in_group != 3
-    pass
 
 
-class Results(Page):
-    pass
+class ExitSurvey(Page):
+    """ Exit survey"""
+    form_model = 'player'
+    form_fields = ['capital_city', 'math_question', 'population_question']
 
+    @staticmethod
+    def is_displayed(player):
+        """Display the exit survey on the last round only."""
+        return player.round_number == C.NUM_ROUNDS
 
-page_sequence = [introduction, SendAmount, SendAmountWait , Verdict, DecisionWait, Payout]
+    
+page_sequence = [introduction, SendAmount,
+                 SendAmountWait, Verdict, DecisionWait, Payout, ExitSurvey]

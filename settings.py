@@ -5,14 +5,8 @@ SESSION_CONFIGS = [
     dict(
         name='mini_ultimatum_game',
         display_name="Mini Ultimatum Game",
-        app_sequence=['mini_ultimatum_game'],
+        app_sequence=['mini_ultimatum_game', 'payment_info'],
         num_demo_participants=3,
-    ),
-    dict(
-        name='exit_survey',
-        display_name='Exit Survey',
-        num_demo_participants=1,
-        app_sequence=['exit_survey'],
     )
 ]
 

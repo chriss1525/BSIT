@@ -1,0 +1,42 @@
+**Busara Software Intern Task - Mini Ultimatum Game**
+
+**Experience**:
+
+1. **Getting Started**:
+   - I started by familiarizing myself with oTree, which involved reading documentation and going throuhg youtube tutorials to learn how to use it.
+   - I chose to work with a terminal and a text editor instead of using oTree Studio.
+
+2. **Setting up oTree**:
+  - oTree installation and initialization was rather straightforward and easy.
+  - I learned the importance of the `settings.py` file, which defines the configuration for the project, including the apps that run when the otree devserver is set up.
+
+3. **Game Design**:
+   - I had to decide whether the exit survey was separate from the mini ultimatum game. I chose to have them as two apps in the same project.
+
+4. **Mini Ultimatum Game**:
+
+With the Mini Ultimatum game, I took time to understand and implement the following solutions to the challenges I encountered:
+  - I noticed player 2 started the game with a wait page and to make things fair for them, I initiated an introductions page that told all the players what was expected of them 
+  - To ensure players see pages relevant to them, I used wait page variables to control the flow.
+  - I adjusted points to represent Ksh instead of points in the settings.py for clarity.
+  - I addressed a challenge where Player 2 was ending the game earlier than other players by adding a second wait class.
+
+5. **Exit Survey**:
+   - The biggest challeng I have faced with the exit survey is the instruction to make sure the math question is answered before the partcipant is allowed to answer the next question.
+   - I have commented the several steps I have tried to take towards this objective
+
+**Deliverables**:
+My work organized as follows:
+- This document is at the root of my submission folder.
+- The submission folder's title is the candidate id provided in the email I received with instructions to this task.
+- This folder also contains a README.md file with instructions on how to run the task.
+- Both app folders are also haboured in this folder and everything else that might be required to run the task.
+- This folder has been uploaded to my GitHub account and set to public.
+
+**Conclusion**:
+Working on this task has been a valuable experience. I've learned a lot about oTree, game design, and how to handle specific challenges. I am confident that my submission will demonstrate my ability to adapt to new programming environments effectively.
+
+Thank you for considering my submission.
+
+[GitHub Repository Link: https://github.com/chriss1525/BSI_121]
+
