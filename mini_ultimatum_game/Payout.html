@@ -1,0 +1,15 @@
+{{ block title }}Payout{{ endblock }}
+{{ block content }}
+
+  <h2> Results </h2>
+  <p><strong>Player 1:</strong></p>
+  <p> Amount sent to Player 2: {{ player1.sent_amount }} </p>
+  <p> Decision made by Player 3: {{ player3.decision }} </p>
+  <p> Payout: {{ player1.payout }} </p>
+
+  <p><strong>Player 2:</strong></p>
+  <p> Amount received from Player 1: {{ player1.sent_amount }} </p>
+  <p> Decision made by Player 3: {{ player3.decision }} </p>
+  <p> Payout: {{ player2.payout }} </p>
+{{ endblock }}
+

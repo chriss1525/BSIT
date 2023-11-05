@@ -1,21 +1,18 @@
 from os import environ
 
 
-SESSION_CONFIGS = [
-    dict(
-        name='guess_two_thirds',
-        display_name="Guess 2/3 of the Average",
-        app_sequence=['guess_two_thirds', 'payment_info'],
-        num_demo_participants=3,
-    ),
-    dict(
-        name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
-    ),
+SESSION_CONFIGS = [ 
     dict(
         name='mini_ultimatum_game',
         display_name="Mini Ultimatum Game",
-        app_sequence=['mini_ultimatum_game', 'payment_info'],
+        app_sequence=['mini_ultimatum_game'],
         num_demo_participants=3,
+    ),
+    dict(
+        name='exit_survey',
+        display_name='Exit Survey',
+        num_demo_participants=1,
+        app_sequence=['exit_survey'],
     )
 ]
 
@@ -37,7 +34,7 @@ LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'Ksh'
-USE_POINTS = True
+USE_POINTS = False
 
 ROOMS = [
     dict(

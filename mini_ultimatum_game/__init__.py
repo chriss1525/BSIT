@@ -18,7 +18,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'mini_ultimatum_game'
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
-    ENDOWMENT = 200
+    ENDOWMENT = 200 # Ksh
     MIN_OFFER = 0
     MAX_OFFER = ENDOWMENT
 
@@ -28,13 +28,15 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    pass
+    def decision_made(self):
+        return all([p.decision in ['Punish', 'Not Punish'] for p in self.get_players()])
 
 
 class Player(BasePlayer):
     sent_amount = models.CurrencyField(
         min=C.MIN_OFFER, max=C.MAX_OFFER,
-        doc="How much do you want to send to player 2?"
+        doc="How much do you want to send to player 2?",
+        verbose_name='Ksh'
     )
 
     received_amount = models.CurrencyField(
@@ -59,6 +61,10 @@ class SendAmount(Page):
     form_model = 'player'
     form_fields = ['sent_amount']
 
+    def vars_for_template(self):
+        return {
+            'currency': 'Ksh',
+        }
     def is_displayed(self):
         return self.id_in_group == 1
 
@@ -70,10 +76,19 @@ class Verdict(Page):
     def is_displayed(self):
         return self.id_in_group == 3
 
+    def vars_for_template(self):
+        player1 = self.group.get_player_by_id(1)
+        player2 = self.group.get_player_by_id(2)
+        return {
+            'sent_amount': player1.sent_amount,
+            'player1': player1,
+            'player2': player2
+        }
+
 
 class Payout(Page):
     def is_displayed(self):
-        return self.id_in_group == 3
+        return self.id_in_group != 3
 
     def vars_for_template(self):
         player1 = self.group.get_player_by_id(1)
@@ -94,9 +109,14 @@ class Payout(Page):
         }
 
 
-class ResultsWaitPage(WaitPage):
+class SendAmountWait(WaitPage):
     def is_displayed(self):
         return self.id_in_group != 1
+    pass
+
+class DecisionWait(WaitPage):
+    def is_displayed(self):
+        return self.id_in_group != 3
     pass
 
 
@@ -104,4 +124,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [introduction, SendAmount, ResultsWaitPage, Verdict, Payout]
+page_sequence = [introduction, SendAmount, SendAmountWait , Verdict, DecisionWait, Payout]
